@@ -1,0 +1,11 @@
+__pycache__
+*.pyc
+.env
+sentinel.db
+sentinel.db-shm
+sentinel.db-wal
+start.ps1
+start.bat
+e2e_test.py
+test_traffic.py
+test_block.py

@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=Public+Sans:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* Sentinel — dark Apple materials */
+  --void:        #000000;
+  --canvas:      #000000;
+  --surface:     #1c1c1e;
+  --elevated:    #2c2c2e;
+  --hover:       #3a3a3c;
+  --hairline:    rgba(255, 255, 255, 0.08);
+  --hairline-2:  rgba(255, 255, 255, 0.12);
+
+  --label:       #98989d;
+  --secondary:   #aeaeb2;
+  --primary:     #f5f5f7;
+  --inverse:     #000000;
+
+  --blue:        #0a84ff;
+  --blue-dim:    rgba(10, 132, 255, 0.15);
+  --red:         #ff453a;
+  --red-dim:     rgba(255, 69, 58, 0.15);
+  --orange:      #ff9f0a;
+  --orange-dim:  rgba(255, 159, 10, 0.15);
+  --yellow:      #ffd60a;
+  --green:       #30d158;
+  --green-dim:   rgba(48, 209, 88, 0.15);
+  --purple:      #bf5af2;
+
+  /* aliases used across views */
+  --bg:          var(--void);
+  --bg1:         var(--surface);
+  --bg2:         var(--elevated);
+  --bg3:         var(--hover);
+  --bg4:         #48484a;
+  --border:      var(--hairline);
+  --border2:     var(--hairline-2);
+  --border3:     rgba(255, 255, 255, 0.18);
+  --accent:      var(--blue);
+  --accent2:     #64d2ff;
+  --accent-soft: var(--blue-dim);
+  --accent-glow: var(--blue-dim);
+  --text:        var(--primary);
+  --text2:       var(--label);
+  --text3:       #636366;
+  --red-soft:    var(--red-dim);
+  --orange-soft: var(--orange-dim);
+  --green-soft:  var(--green-dim);
+
+  --display: 'Bricolage Grotesque', ui-sans-serif, sans-serif;
+  --sans:    'Public Sans', ui-sans-serif, sans-serif;
+  --mono:    'IBM Plex Mono', ui-monospace, monospace;
+
+  --r: 20px;
+  --r-sm: 12px;
+  --r-xs: 8px;
+  --r-pill: 999px;
+  --radius: var(--r);
+
+  --shadow: 0 0 0 1px var(--hairline), 0 8px 28px rgba(0, 0, 0, 0.45);
+  --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --transition: 0.28s var(--ease);
+}
+
+html, body, #root {
+  height: 100%;
+  background: var(--void);
+  color: var(--primary);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+body {
+  overscroll-behavior-y: contain;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: #3a3a3c;
+  border-radius: var(--r-pill);
+  border: 2px solid var(--void);
+}
+
+::selection { background: rgba(10, 132, 255, 0.35); color: #fff; }
+
+input, select, textarea, button { font-family: inherit; }
+
+input, select {
+  background: var(--elevated);
+  border: 1px solid var(--hairline-2);
+  color: var(--primary);
+  border-radius: var(--r-pill);
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+input:focus, select:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px var(--blue-dim);
+}
+input::placeholder { color: var(--text3); font-weight: 400; }
+select option { background: var(--elevated); }
+
+@keyframes fadein { from { opacity: 0; } to { opacity: 1; } }
+@keyframes rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+@keyframes slidein {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes flashrow {
+  0% { background: var(--blue-dim); }
+  100% { background: transparent; }
+}
+@keyframes arcflow { to { stroke-dashoffset: -140; } }
+@keyframes ringpulse {
+  0% { r: 3; opacity: 0.9; }
+  100% { r: 22; opacity: 0; }
+}

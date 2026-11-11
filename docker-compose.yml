@@ -1,0 +1,39 @@
+services:
+  api:
+    build: ./backend
+    ports:
+      - "8000:8000"
+      # Honeypot sensors. Map these to 22/80/21/23 on a host you control if you
+      # want to catch real internet scanning instead of only simulated traffic.
+      - "2222:2222"
+      - "8080:8080"
+      - "2121:2121"
+      - "2323:2323"
+    environment:
+      SENTINEL_API_KEY: ${SENTINEL_API_KEY:?set SENTINEL_API_KEY in .env}
+      SENTINEL_ORIGINS: ${SENTINEL_ORIGINS:-http://localhost:5173}
+      SENTINEL_LIVE_ATTACKS: ${SENTINEL_LIVE_ATTACKS:-1}
+      SENTINEL_LIVE_INTERVAL: ${SENTINEL_LIVE_INTERVAL:-1.6}
+      SENTINEL_DB: /data/sentinel.db
+    volumes:
+      - sentinel-db:/data
+    # Required for the container to program iptables. Drop it and containment
+    # is honestly reported as "recorded only" rather than silently failing.
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+
+  web:
+    build:
+      context: ./frontend
+      args:
+        VITE_SENTINEL_API: ${SENTINEL_PUBLIC_API:-http://localhost:8000}
+        VITE_SENTINEL_KEY: ${SENTINEL_API_KEY:?set SENTINEL_API_KEY in .env}
+    ports:
+      - "5173:80"
+    depends_on:
+      - api
+    restart: unless-stopped
+
+volumes:
+  sentinel-db:

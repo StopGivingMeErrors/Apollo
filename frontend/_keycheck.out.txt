@@ -1,0 +1,7 @@
+exports: export const WORLD_PATHS, export const MAP_W, export const MAP_H
+entries      : 177
+object keys  : id,d
+undefined ids: 0
+duplicate ids: 2
+  dup values : undefined
+paths with antimeridian wrap streaks: 3

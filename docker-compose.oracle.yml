@@ -1,0 +1,52 @@
+# API + honeypot sensors for a single Oracle Always Free VM.
+# Caddy terminates HTTPS for the Vercel dashboard. Honeypot ports are published
+# so real internet scanners can hit the sensors (OCI security list must allow them).
+
+services:
+  api:
+    build: ./backend
+    expose:
+      - "8000"
+    ports:
+      - "2222:2222"
+      - "8080:8080"
+      - "2121:2121"
+      - "2323:2323"
+    environment:
+      SENTINEL_API_KEY: ${SENTINEL_API_KEY:?set SENTINEL_API_KEY}
+      SENTINEL_ORIGINS: ${SENTINEL_ORIGINS:?set SENTINEL_ORIGINS}
+      SENTINEL_LIVE_ATTACKS: ${SENTINEL_LIVE_ATTACKS:-0}
+      SENTINEL_LIVE_INTERVAL: ${SENTINEL_LIVE_INTERVAL:-1.6}
+      SENTINEL_SEED_ON_EMPTY: "0"
+      SENTINEL_PUBLIC_DOCS: ${SENTINEL_PUBLIC_DOCS:-0}
+      SENTINEL_DB: /data/sentinel.db
+    volumes:
+      - sentinel-db:/data
+    cap_add:
+      - NET_ADMIN
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8000/api/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+
+  caddy:
+    image: caddy:2-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      api:
+        condition: service_started
+    restart: unless-stopped
+
+volumes:
+  sentinel-db:
+  caddy-data:
+  caddy-config:

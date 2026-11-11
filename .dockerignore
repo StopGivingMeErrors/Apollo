@@ -1,0 +1,9 @@
+**/node_modules
+**/dist
+**/__pycache__
+**/*.pyc
+**/.git
+**/.env
+**/sentinel.db
+**/sentinel.db-shm
+**/sentinel.db-wal
