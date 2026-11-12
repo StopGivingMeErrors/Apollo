@@ -1,10 +1,25 @@
-# Sentinel SOC v4
+# Apollo
 
-Hybrid honeypot-powered Security Operations Center. Sensors stay local (SSH/HTTP/FTP/Telnet honeypots); the product layer is a real analyst workflow: **deduped alerts, campaign correlation, MITRE ATT&CK, cases/SLAs, playbooks, containment with audit, and MTTA/MTTR metrics**.
+Apollo is a hybrid honeypot-powered Security Operations Center. Sensors stay local (SSH/HTTP/FTP/Telnet honeypots); the product layer is a real analyst workflow: **deduped alerts, campaign correlation, MITRE ATT&CK, cases/SLAs, playbooks, containment with audit, and MTTA/MTTR metrics**.
+
+Live dashboard: [sentinel-soc-sand.vercel.app](https://sentinel-soc-sand.vercel.app/)
+
+![Operations overview](docs/screenshots/01-overview.png)
+
+## Screenshots
+
+| | |
+| --- | --- |
+| ![Alert queue](docs/screenshots/02-alert-queue.png) | ![Investigate](docs/screenshots/03-investigate.png) |
+| **Alert queue** — triage board with filters and keyboard shortcuts. | **Investigate** — IP pivot with a timeline, payloads, related alerts, and playbooks. |
+| ![Cases](docs/screenshots/04-cases.png) | ![Metrics](docs/screenshots/05-metrics.png) |
+| **Cases** — incident cases with SLA clocks, linked alerts, and notes. | **Metrics** — MTTA/MTTR, false-positive rate, and auto vs manual containment. |
+| ![Response](docs/screenshots/06-response.png) | |
+| **Response** — blocklist manager, playbook runner, and audit trail. | |
 
 ## Problems this solves
 
-| SOC pain | How Sentinel v4 addresses it |
+| SOC pain | How Apollo addresses it |
 |---|---|
 | Alert fatigue | Fingerprint alerts (`ip + threat + hour`) so 200 probes → 1 alert with `event_count` |
 | No ownership | Assignable alerts/cases with local analyst profiles |
@@ -71,7 +86,7 @@ curl -X POST localhost:8000/api/simulator \
 
 ## Containment honesty
 
-Programming the OS firewall needs elevated privileges. When Sentinel cannot do
+Programming the OS firewall needs elevated privileges. When Apollo cannot do
 it, the block is still recorded — but it is **never reported as enforced**.
 `GET /api/health` exposes the real capability, every blocklist row carries an
 `enforced` flag, and the UI shows a warning banner plus a per-row
